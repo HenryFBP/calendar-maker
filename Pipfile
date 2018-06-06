@@ -5,8 +5,9 @@ name = "pypi"
 
 [packages]
 google-api-python-client = "*"
+"oauth2client" = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "2"
+python_version = "3.6"
