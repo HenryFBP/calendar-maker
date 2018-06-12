@@ -22,10 +22,14 @@ def month_start_stop(date: datetime.datetime):
 
     return (start, end)
 
+def eprint(event):
+    """Print a GCal event in human-readable format."""
+    return f"{event['summary']} from {'start'} to {'end'}"
 
 def gdateformat(date: datetime):
     """Given a date, format it so that Google Cal HTTP API likes it."""
     return date.isoformat() + 'Z'
+    
 
 def events_match_day(events, day):
     """Given a list of events and a day, return a list of all events that take place during that day
@@ -35,9 +39,9 @@ def events_match_day(events, day):
     for event in events:
 
         # Turn ISO format into datetime.datetime
-        eday = dateutil.parser.parse(datetime.datetime.astimezone(event['start']['dateTime'])) 
+        eday = dateutil.parser.parse(event['start']['dateTime'][0])
 
-        if eday == day:
+        if eday.day == day:
             es.append(event)
     
     return es
@@ -50,21 +54,20 @@ if __name__ == '__main__':
     # service = setup_gcal_service_key(json.load(open('data/key.json','r'))['key'])
     service = setup_gcal_service()
 
-    # Call the Calendar API
-    print('Getting the upcoming 10 events')
-    events_result = service.events().list(calendarId='primary', timeMin=gdateformat(start), timeMax=gdateformat(end),
-                                          maxResults=10, singleEvents=True,
-                                          orderBy='startTime').execute()
-    events = events_result.get('items', [])
-    pprint(events)
-
     events = {}
 
     for id in settings['allowed-calendar-ids']:
-        print(id)
         events_result = service.events().list(calendarId=id, timeMin=gdateformat(start),
                                               timeMax=gdateformat(end),
-                                              maxResults=10, singleEvents=True,
+                                              maxResults=100, singleEvents=True,
                                               orderBy='startTime').execute()
 
         events[id] = events_result.get('items', [])
+
+        for i in range(start.day, end.day):
+            print(f"{i}th day's events: ")
+            pprint(events_match_day(events[id], i))
+
+        
+    pprint(events)
+
