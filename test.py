@@ -3,6 +3,7 @@ import calendar
 import json
 from copy import deepcopy
 import datetime
+import dateutil.parser
 from pprint import pprint
 
 from python_quickstart import setup_gcal_service, setup_gcal_service_key
@@ -26,6 +27,20 @@ def gdateformat(date: datetime):
     """Given a date, format it so that Google Cal HTTP API likes it."""
     return date.isoformat() + 'Z'
 
+def events_match_day(events, day):
+    """Given a list of events and a day, return a list of all events that take place during that day
+        of the month."""
+    es = []
+    
+    for event in events:
+
+        # Turn ISO format into datetime.datetime
+        eday = dateutil.parser.parse(datetime.datetime.astimezone(event['start']['dateTime'])) 
+
+        if eday == day:
+            es.append(event)
+    
+    return es
 
 if __name__ == '__main__':
     start, end = month_start_stop(datetime.datetime.now())
