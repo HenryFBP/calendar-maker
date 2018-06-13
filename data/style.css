@@ -1,0 +1,8 @@
+ol {
+    display: flex;
+    flex-wrap:wrap;
+}
+
+ol li {
+    width: calc(100% * (1/7));
+}
