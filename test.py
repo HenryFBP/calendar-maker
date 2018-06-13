@@ -28,15 +28,18 @@ def month_start_stop(date: datetime.datetime):
 def eprint(event):
     """Print a GCal event in human-readable format."""
     # pprint(event)
-    str = f"{event['summary']} from {'start'} to {'end'}"
-    # print(str)
-    return str
+    ret = f"{event['summary']} from {'start'} to {'end'}"
+    # print(ret)
+    return ret
 
 def get_date_from_event(event, kind="start") -> datetime.datetime:
     """Given an event which may or may not have:
         - ['start']['dateTime']
         - ['start']['date']
-        Return a datetime which represents that event."""
+        Return a datetime which represents that event.
+
+        If you want to get the end, simply call this function
+        and pass 'end' as the `kind` arg."""
     
     if 'start' in event:
 
@@ -49,7 +52,9 @@ def get_date_from_event(event, kind="start") -> datetime.datetime:
     return None
 
 def niceformat(date: datetime):
-    """Given a date, return a super-friendly format."""
+    """Given a date, return a super-friendly format.
+
+    i.e. '4:30AM'"""
     return date.strftime('%I:%M%p')
 
 def gdateformat(date: datetime):
