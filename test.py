@@ -32,7 +32,7 @@ def eprint(event):
     # print(str)
     return str
 
-def get_date_from_event(event) -> datetime.datetime:
+def get_date_from_event(event, kind="start") -> datetime.datetime:
     """Given an event which may or may not have:
         - ['start']['dateTime']
         - ['start']['date']
@@ -40,13 +40,17 @@ def get_date_from_event(event) -> datetime.datetime:
     
     if 'start' in event:
 
-        if 'dateTime' in event['start']:
-            return dateutil.parser.parse(event['start']['dateTime'])
+        if 'dateTime' in event[kind]:
+            return dateutil.parser.parse(event[kind]['dateTime'])
 
-        if 'date' in event['start']:
-            return dateutil.parser.parse(event['start']['date'])
+        if 'date' in event[kind]:
+            return dateutil.parser.parse(event[kind]['date'])
 
     return None
+
+def niceformat(date: datetime):
+    """Given a date, return a super-friendly format."""
+    return date.strftime('%I:%M%p')
 
 def gdateformat(date: datetime):
     """Given a date, format it so that Google Cal HTTP API likes it."""
@@ -114,10 +118,18 @@ def html_from_events(events: list) -> str:
                         with tag('ul'): # An unordered list of all events for a specific day.
 
                             for event in sortedes[day]: # For all events in a day, do...
-                                
+
+                                start = get_date_from_event(event)
+                                end = get_date_from_event(event, 'end')
                                 with tag('li'): # A single event.
-                                    with tag('a'):
+
+                                    with tag('p'): # The event's name.
                                         text(event['summary'])
+
+                                    with tag('p'): # The start and stop of the event.
+                                        text(niceformat(start))
+                                        text('-')
+                                        text(niceformat(end))
 
             text('potato')
 
