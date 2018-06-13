@@ -5,7 +5,8 @@ from copy import deepcopy
 import datetime
 import dateutil.parser
 from pprint import pprint
-
+import mpu
+from yattag import Doc
 from python_quickstart import setup_gcal_service, setup_gcal_service_key
 
 
@@ -48,7 +49,24 @@ def get_date_from_event(event) -> datetime.datetime:
 def gdateformat(date: datetime):
     """Given a date, format it so that Google Cal HTTP API likes it."""
     return date.isoformat() + 'Z'
+
+def sort_events_by_day(events: list) -> dict:
+    """Given a list of events, sort them into a dictionary where:
+        - The key is the event's day
+        - The value is the event itself"""
+    sortd = {}
     
+    for event in events:
+        edate = get_date_from_event(event)
+        eday = edate.day
+        
+        if eday not in sortd: # Initialize dict[day] to empty list if key DNE
+            sortd[eday] = []
+
+        sortd[eday].append(event)
+
+    return sortd
+        
 
 def events_match_day(events, day):
     """Given a list of events and a day, return a list of all events that take place during that day
@@ -64,6 +82,10 @@ def events_match_day(events, day):
     
     return es
 
+def html_from_events(events: list) -> str:
+    """Given a list of events, return HTML that represents those events in a calendar."""
+    pass
+
 if __name__ == '__main__':
     start, end = month_start_stop(datetime.datetime.now())
 
@@ -72,7 +94,7 @@ if __name__ == '__main__':
     # service = setup_gcal_service_key(json.load(open('data/key.json','r'))['key'])
     service = setup_gcal_service()
 
-    events = {}
+    events = []
 
     for id in settings['allowed-calendar-ids']:
         events_result = service.events().list(calendarId=id, timeMin=gdateformat(start),
@@ -80,13 +102,18 @@ if __name__ == '__main__':
                                               maxResults=100, singleEvents=True,
                                               orderBy='startTime').execute()
 
-        events[id] = events_result.get('items', [])
+        results = events_result.get('items', []) # Retrieve events matching a specific query
 
-        for i in range(start.day, end.day):
-            matches = events_match_day(events[id], i)
-            print(f"{i}th day's events: ")
-
-            pprint([eprint(match) for match in matches])
+        for event in results:
+            events.append(event)
+        
+    """        for i in range(start.day, end.day):
+                matches = events_match_day(events[id], i)
+                print(f"{i}th day's events: ")
+                pprint([eprint(match) for match in matches])
+    """
+    
+    sortedes = sort_events_by_day(events)
             
-    # pprint(events)
+    pprint(sortedes)
 
