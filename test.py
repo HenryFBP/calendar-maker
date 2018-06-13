@@ -10,6 +10,7 @@ from yattag import Doc
 from bs4 import BeautifulSoup
 from python_quickstart import setup_gcal_service, setup_gcal_service_key
 
+days = "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(',')
 
 def month_start_stop(date: datetime.datetime):
     """Given a datetime, return the two datetimes that are the beginning and ends of the month."""
@@ -66,6 +67,10 @@ def sort_events_by_day(events: list) -> dict:
 
         sortd[eday].append(event)
 
+    for i in range(1, 32): # Ensure all days have a key
+        if i not in sortd:
+            sortd[i] = []
+
     return sortd
         
 
@@ -100,7 +105,7 @@ def html_from_events(events: list) -> str:
         with tag('body'):
             with tag('ol'): # An ordered list of all days.
 
-                for day in sortedes.keys():
+                for day in sorted(sortedes.keys()):
                     with tag('li'): # A single day.
 
                         with tag('a'):
