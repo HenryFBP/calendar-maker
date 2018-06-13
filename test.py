@@ -24,7 +24,26 @@ def month_start_stop(date: datetime.datetime):
 
 def eprint(event):
     """Print a GCal event in human-readable format."""
-    return f"{event['summary']} from {'start'} to {'end'}"
+    # pprint(event)
+    str = f"{event['summary']} from {'start'} to {'end'}"
+    # print(str)
+    return str
+
+def get_date_from_event(event) -> datetime.datetime:
+    """Given an event which may or may not have:
+        - ['start']['dateTime']
+        - ['start']['date']
+        Return a datetime which represents that event."""
+    
+    if 'start' in event:
+
+        if 'dateTime' in event['start']:
+            return dateutil.parser.parse(event['start']['dateTime'])
+
+        if 'date' in event['start']:
+            return dateutil.parser.parse(event['start']['date'])
+
+    return None
 
 def gdateformat(date: datetime):
     """Given a date, format it so that Google Cal HTTP API likes it."""
@@ -38,9 +57,8 @@ def events_match_day(events, day):
     
     for event in events:
 
-        # Turn ISO format into datetime.datetime
-        eday = dateutil.parser.parse(event['start']['dateTime'][0])
-
+        eday = get_date_from_event(event)
+        
         if eday.day == day:
             es.append(event)
     
@@ -65,9 +83,10 @@ if __name__ == '__main__':
         events[id] = events_result.get('items', [])
 
         for i in range(start.day, end.day):
+            matches = events_match_day(events[id], i)
             print(f"{i}th day's events: ")
-            pprint(events_match_day(events[id], i))
 
-        
-    pprint(events)
+            pprint([eprint(match) for match in matches])
+            
+    # pprint(events)
 
