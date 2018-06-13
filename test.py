@@ -7,6 +7,7 @@ import dateutil.parser
 from pprint import pprint
 import mpu
 from yattag import Doc
+from bs4 import BeautifulSoup
 from python_quickstart import setup_gcal_service, setup_gcal_service_key
 
 
@@ -84,7 +85,39 @@ def events_match_day(events, day):
 
 def html_from_events(events: list) -> str:
     """Given a list of events, return HTML that represents those events in a calendar."""
-    pass
+
+    sortedes = sort_events_by_day(events)
+    
+    doc, tag, text = Doc().tagtext()
+
+    with tag('html'):
+
+        with tag('head'):
+            doc.stag('link',
+                     ('rel', 'stylesheet'),
+                     ('href', 'style.css'))
+
+        with tag('body'):
+            with tag('ol'): # An ordered list of all days.
+
+                for day in sortedes.keys():
+                    with tag('li'): # A single day.
+
+                        with tag('a'):
+                            text(day)
+
+                        with tag('ul'): # An unordered list of all events for a specific day.
+
+                            for event in sortedes[day]: # For all events in a day, do...
+                                
+                                with tag('li'): # A single event.
+                                    with tag('a'):
+                                        text(event['summary'])
+
+            text('potato')
+
+    return BeautifulSoup(doc.getvalue(), 'html.parser').prettify()
+    
 
 if __name__ == '__main__':
     start, end = month_start_stop(datetime.datetime.now())
@@ -113,7 +146,14 @@ if __name__ == '__main__':
                 pprint([eprint(match) for match in matches])
     """
     
-    sortedes = sort_events_by_day(events)
-            
-    pprint(sortedes)
+    # sortedes = sort_events_by_day(events)
+    # pprint(sortedes)
+
+    html = html_from_events(events)
+    print(html)
+
+    with open('data/calendar.html', 'w') as f:
+        f.write(html)
+
+    
 
