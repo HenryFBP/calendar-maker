@@ -117,10 +117,23 @@ def html_from_events(events: list) -> str:
             doc.stag('link',
                      ('rel', 'stylesheet'),
                      ('href', 'style.css'))
+            
+            doc.stag('link',
+                     ('rel', 'stylesheet'),
+                     ('href', 'reset.css'))
 
         with tag('body'):
-            with tag('ol'): # An ordered list of all days.
 
+            # Create the day headers: Su Mo Tu Th Fr Sa
+            with tag('ol', klass='headers'):                
+                for day in days:
+                    with tag('li'):
+                        with tag('h1'):
+                            text(day)
+                
+            
+            with tag('ol', klass='month'): # An ordered list of all days.
+                
                 # We start at the smallest day of the previous month that will fit in our mini-week of purgatory.
                 prev_month = prev_month.replace(day = prev_month.day - (month.weekday() + 1))
                 
@@ -130,7 +143,7 @@ def html_from_events(events: list) -> str:
                     # For printing the previous month's days
                     prev_month = prev_month.replace(day = prev_month.day + 1)
 
-                    with tag('li'):
+                    with tag('li', klass='prev'):
                         with tag('a'):
                             text(prev_month.day)
                 

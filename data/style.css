@@ -6,9 +6,27 @@ ol, ul, li {
 
 ol {
     display: flex;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
 }
 
 ol li {
     width: calc(100% * (1/7));
+}
+
+h1 {
+    text-align: center;
+}
+
+.month li {
+    background-color: lightblue;
+}
+
+li.prev {
+    background-color: lightgrey;
+}
+
+.month > * {
+    box-sizing: border-box;
+    margin: 1px;
+    padding: -1px;
 }
