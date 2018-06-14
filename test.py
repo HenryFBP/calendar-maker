@@ -101,6 +101,13 @@ def html_from_events(events: list) -> str:
     """Given a list of events, return HTML that represents those events in a calendar."""
 
     sortedes = sort_events_by_day(events)
+
+    month = get_date_from_event(events[0])
+    month = month.replace(day = 1)
+
+    # Create a previous month, just 1 day before our current month.
+    # This is for printing the days for the tiny previous-month section.
+    prev_month = month_start_stop(month.replace(month=month.month-1))[1]
     
     doc, tag, text = Doc().tagtext()
 
@@ -114,6 +121,19 @@ def html_from_events(events: list) -> str:
         with tag('body'):
             with tag('ol'): # An ordered list of all days.
 
+                # We start at the smallest day of the previous month that will fit in our mini-week of purgatory.
+                prev_month = prev_month.replace(day = prev_month.day - (month.weekday() + 1))
+                
+                # This section of code offsets the calendar by the previous month's ending weekday.
+                for i in range(0, month.weekday()): 
+
+                    # For printing the previous month's days
+                    prev_month = prev_month.replace(day = prev_month.day + 1)
+
+                    with tag('li'):
+                        with tag('a'):
+                            text(prev_month.day)
+                
                 for day in sorted(sortedes.keys()):
                     with tag('li'): # A single day.
 
