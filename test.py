@@ -144,7 +144,7 @@ def html_from_events(events: list) -> str:
                 prev_month = prev_month.replace(day = prev_month.day - (month.weekday() + 1))
                 
                 # This section of code offsets the calendar by the previous month's ending weekday.
-                for i in range(0, month.weekday()): 
+                for i in range(0, month.weekday() + 1): 
 
                     # For printing the previous month's days
                     prev_month = prev_month.replace(day = prev_month.day + 1)
