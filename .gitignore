@@ -1,5 +1,6 @@
 client_secret.json
 credentials.json
 key.json
+calendar*.html
 .idea/
 __pycache__/
