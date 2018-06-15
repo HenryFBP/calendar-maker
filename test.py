@@ -165,15 +165,20 @@ def html_from_events(events: list) -> str:
 
                                 start = get_date_from_event(event)
                                 end = get_date_from_event(event, 'end')
+                                
                                 with tag('li'): # A single event.
 
                                     with tag('p'): # The event's name.
                                         text(event['summary'])
 
                                     with tag('p', klass='time'): # The start and stop of the event.
-                                        text(niceformat(start))
-                                        text(' - ')
-                                        text(niceformat(end))
+
+                                        if 'dateTime' in event['start']:
+                                            text(niceformat(start))
+                                            text(' - ')
+                                            text(niceformat(end))
+                                        else:
+                                            text("all day")
 
             text('potato')
 
