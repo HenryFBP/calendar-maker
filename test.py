@@ -170,9 +170,9 @@ def html_from_events(events: list) -> str:
                                     with tag('p'): # The event's name.
                                         text(event['summary'])
 
-                                    with tag('p'): # The start and stop of the event.
+                                    with tag('p', klass='time'): # The start and stop of the event.
                                         text(niceformat(start))
-                                        text('-')
+                                        text(' - ')
                                         text(niceformat(end))
 
             text('potato')

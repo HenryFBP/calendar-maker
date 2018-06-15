@@ -24,3 +24,16 @@ li.prev {
 .month > * {
     margin: 1px;
 }
+
+ol li ul li {
+    display: block;
+    margin-bottom: 0.5rem;
+    background-color: lightblue;
+    filter: brightness(0.9);
+}
+
+.time {
+    text-align: center;
+    filter: none;
+    background-color: azure;
+}
