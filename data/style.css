@@ -5,12 +5,8 @@ ol, ul, li {
 }
 
 ol {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-ol li {
-    width: calc(100% * (1/7));
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
 }
 
 h1 {
@@ -26,7 +22,5 @@ li.prev {
 }
 
 .month > * {
-    box-sizing: border-box;
     margin: 1px;
-    padding: -1px;
 }
