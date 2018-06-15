@@ -57,6 +57,12 @@ def niceformat(date: datetime):
     i.e. '4:30AM'"""
     return date.strftime('%I:%M%p')
 
+def detailformat(date: datetime, sep='-'):
+    """Given a date, return a detailed format. (not TOO detailed)
+
+    i.e. '06-15-18'."""
+    return date.strftime('%m'+sep+'%d'+sep+'%y')
+
 def gdateformat(date: datetime):
     """Given a date, format it so that Google Cal HTTP API likes it."""
     return date.isoformat() + 'Z'
@@ -207,7 +213,7 @@ if __name__ == '__main__':
     html = html_from_events(events)
     print(html)
 
-    with open('data/calendar.html', 'w') as f:
+    with open('data/calendar-' + detailformat(start) + '.html', 'w') as f:
         f.write(html)
 
     
