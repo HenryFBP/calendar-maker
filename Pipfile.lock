@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6fb74dcf64ff5ffef347264d0ae90987f4801714a9a698d7a254310e77265bdd"
+            "sha256": "5ffdf61b44d800b6cca1bdc95f616cb50cae7e5d0b13aea818918e8e80bbf425"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,15 @@
         ]
     },
     "default": {
+        "beautifulsoup4": {
+            "hashes": [
+                "sha256:11a9a27b7d3bddc6d86f59fb76afb70e921a25ac2d6cc55b40d072bd68435a76",
+                "sha256:7015e76bf32f1f574636c4288399a6de66ce08fb7b2457f628a8d70c0fbabb11",
+                "sha256:808b6ac932dccb0a4126558f7dfdcf41710dd44a4ef497a0bb59a77f9f078e89"
+            ],
+            "index": "pypi",
+            "version": "==4.6.0"
+        },
         "cachetools": {
             "hashes": [
                 "sha256:90f1d559512fc073483fe573ef5ceb39bf6ad3d39edc98dc55178a2b2b176fa3",
@@ -50,6 +59,14 @@
                 "sha256:e71daed9a0e6373642db61166fa70beecc9bf04383477f84671348c02a04cbdf"
             ],
             "version": "==0.11.3"
+        },
+        "mpu": {
+            "hashes": [
+                "sha256:e6585364990f36e10410e01b6d3d40df04a1b420e90790b281fa60665d780aed",
+                "sha256:fcd9c9593b17191d2330bc5d817d17c77d59c9e976bc71dcb274e9fbdaac0490"
+            ],
+            "index": "pypi",
+            "version": "==0.5.0"
         },
         "oauth2client": {
             "hashes": [
@@ -93,6 +110,14 @@
             ],
             "version": "==0.2.1"
         },
+        "python-dateutil": {
+            "hashes": [
+                "sha256:1adb80e7a782c12e52ef9a8182bebeb73f1d7e24e374397af06fb4956c8dc5c0",
+                "sha256:e27001de32f627c22380a688bcc43ce83504a7bc5da472209b4c70f02829f0b8"
+            ],
+            "index": "pypi",
+            "version": "==2.7.3"
+        },
         "rsa": {
             "hashes": [
                 "sha256:25df4e10c263fb88b5ace923dd84bf9aa7f5019687b5e55382ffcdb8bede9db5",
@@ -114,6 +139,13 @@
                 "sha256:c02643cebe23fc8adb5e6becffe201185bf06c40bda5c0b4028a93f1527d011d"
             ],
             "version": "==3.0.0"
+        },
+        "yattag": {
+            "hashes": [
+                "sha256:0a3fe7fcbdd5886ebe4ef6c215627599bb13e93a8bc26d3e48789b02e5ddc5dc"
+            ],
+            "index": "pypi",
+            "version": "==1.10.0"
         }
     },
     "develop": {}

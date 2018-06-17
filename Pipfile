@@ -7,6 +7,9 @@ name = "pypi"
 google-api-python-client = "*"
 "oauth2client" = "*"
 python-dateutil = "*"
+yattag = "*"
+"beautifulsoup4" = "*"
+mpu = "*"
 
 [dev-packages]
 
