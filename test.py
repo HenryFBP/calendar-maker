@@ -179,6 +179,12 @@ def html_from_events(events: list) -> str:
                                             text(niceformat(end))
                                         else:
                                             text("all day")
+                                            
+                                    if 'location' in event:                                    
+                                        with tag('p', klass="location"): # The event's location.
+                                            text('at ')
+                                            text(event['location'].split(',')[0]) # The first thing before any commas, if there are any.
+                                        
 
             text('potato')
 
